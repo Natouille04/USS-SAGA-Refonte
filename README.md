@@ -1,2 +1,2 @@
 # USS-SAGA-Refonte
-## Une nouvelle version améliorée de SAGA
+Une nouvelle version améliorée de SAGA
