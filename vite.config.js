@@ -6,12 +6,12 @@ export default defineConfig({
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue"
-      ],
-      
+    ],
+
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
-    ],
+    ]
 });

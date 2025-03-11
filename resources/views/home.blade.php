@@ -17,19 +17,8 @@
     @endif
 </head>
 
-<body class="bg-black p-1">
-    <div class="lcars-row">
-        <div class="lcars-elbow left-bottom lcars-chestnut-rose-bg"></div>
-        <div class="space"></div>
-        <div class="lcars-bar horizontal lcars-orange-peel-bg"></div>
-        <div class="space"></div>
-    </div>
-
-    <div class="lcars-column">
-        <div class="lcars-bar lcars-u-1 lcars-vu-15 lcars-chestnut-rose-bg"></div>
-    </div>
-
-        <audio id="audDummy"></audio>
+<body class='bg-black'>
+    
 </body>
 
 </html>
