@@ -18,6 +18,8 @@
 </head>
 
 <body class='bg-black'>
+
+    <p class="text-white">nigg</p>
     
 </body>
 
