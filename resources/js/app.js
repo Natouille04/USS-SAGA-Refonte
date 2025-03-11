@@ -1,4 +1,5 @@
 import './bootstrap';
+import './lcars_audio.js'
 
 import Alpine from 'alpinejs';
 
