@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Author;
+use App\Models\Illustrator;
+use App\Models\Traductor;
+use App\Models\Corrector;
 
 class DocumentSeeder extends Seeder
 {
@@ -50,13 +53,8 @@ class DocumentSeeder extends Seeder
             ]);
         }
 
-        // Insertion de 50 documents avec données aléatoires
+        // Insertion de 50 documents
         for ($i = 1; $i <= 50; $i++) {
-            $authorId = $authorIds[array_rand($authorIds)];
-            $illustratorId = $illustratorIds[array_rand($illustratorIds)];
-            $traductorId = $traductorIds[array_rand($traductorIds)];
-            $correctorId = $correctorIds[array_rand($correctorIds)];
-
             $documentId = DB::table('documents')->insertGetId([
                 'title' => "Document $i",
                 'og_title' => "Original Title $i",
@@ -66,42 +64,51 @@ class DocumentSeeder extends Seeder
                 'comment' => $i % 2 === 0 ? "Commentaire $i" : null,
                 'url' => "https://example.com/documents/$i",
                 'type' => ['book', 'magazine', 'pdf'][array_rand(['book', 'magazine', 'pdf'])],
-                'author_id' => $authorId,
-                'illustrator_id' => $illustratorId,
-                'traductor_id' => $traductorId,
-                'corrector_id' => $correctorId,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            // Ajout dans les tables pivot
-            DB::table('fk_document_author')->insert([
-                'document_id' => $documentId,
-                'author_id' => $authorId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // Associations aléatoires (1 à 3 de chaque)
+            $selectedAuthors = collect($authorIds)->random(rand(1, 3));
+            $selectedIllustrators = collect($illustratorIds)->random(rand(1, 2));
+            $selectedTraductors = collect($traductorIds)->random(rand(1, 2));
+            $selectedCorrectors = collect($correctorIds)->random(rand(1, 2));
 
-            DB::table('fk_document_illustrator')->insert([
-                'document_id' => $documentId,
-                'illustrator_id' => $illustratorId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($selectedAuthors as $id) {
+                DB::table('fk_document_author')->insert([
+                    'document_id' => $documentId,
+                    'author_id' => $id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
 
-            DB::table('fk_document_traductor')->insert([
-                'document_id' => $documentId,
-                'traductor_id' => $traductorId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($selectedIllustrators as $id) {
+                DB::table('fk_document_illustrator')->insert([
+                    'document_id' => $documentId,
+                    'illustrator_id' => $id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
 
-            DB::table('fk_document_corrector')->insert([
-                'document_id' => $documentId,
-                'corrector_id' => $correctorId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($selectedTraductors as $id) {
+                DB::table('fk_document_traductor')->insert([
+                    'document_id' => $documentId,
+                    'traductor_id' => $id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            foreach ($selectedCorrectors as $id) {
+                DB::table('fk_document_corrector')->insert([
+                    'document_id' => $documentId,
+                    'corrector_id' => $id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 }
