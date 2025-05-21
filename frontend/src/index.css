@@ -1,1 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap');
 @import "tailwindcss";
+
+.antonio {
+  font-family: 'Antonio', sans-serif;
+}

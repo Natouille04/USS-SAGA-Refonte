@@ -7,8 +7,13 @@ Route::get('/', function () {
     return 'Hello World';
 });
 
-Route::get('/allDocuments', [DocumentController::class, 'index'])->name('documents.index');
-Route::get('/allDocuments/{id}', [DocumentController::class, 'show'])->name('documents.show');
-Route::get('/deleteDocument/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+Route::prefix('document')->group(function () {
+    Route::get('/all', [DocumentController::class, 'index'])->name('documents.index');
+    Route::get('/all/{id}', [DocumentController::class, 'show'])->name('documents.show');
 
-Route::post('/storeDocument', [DocumentController::class, 'store']);
+    Route::get('/getLast', [DocumentController::class, 'getLast'])->name('documents.getLast');
+
+    Route::get('/delete/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
+    Route::post('/store', [DocumentController::class, 'store'])->name('documents.store');
+});

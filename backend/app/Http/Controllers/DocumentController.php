@@ -118,4 +118,16 @@ class DocumentController extends Controller
             return response()->json(['message' => 'Document not found'], 404);
         }
     }
+
+    public function getLast()
+    {
+        $limit = (int) ($_GET['limit'] ?? 5);
+
+        $books = Document::with(['authors', 'illustrators', 'traductors', 'correctors'])
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
+
+        return response()->json($books);
+    }
 }
