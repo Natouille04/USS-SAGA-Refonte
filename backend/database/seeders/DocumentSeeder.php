@@ -1,0 +1,107 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class DocumentSeeder extends Seeder
+{
+    public function run(): void
+    {
+        // Création de plusieurs auteurs, illustrateurs, traducteurs et correcteurs
+        $authorIds = [];
+        $illustratorIds = [];
+        $traductorIds = [];
+        $correctorIds = [];
+
+        for ($i = 1; $i <= 10; $i++) {
+            $authorIds[] = DB::table('authors')->insertGetId([
+                'first_name' => 'Auteur' . $i,
+                'middle_name' => $i % 2 == 0 ? 'M.' . $i : null,
+                'last_name' => 'Nom' . $i,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $illustratorIds[] = DB::table('illustrators')->insertGetId([
+                'first_name' => 'Illustrateur' . $i,
+                'middle_name' => null,
+                'last_name' => 'Graph' . $i,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $traductorIds[] = DB::table('traductors')->insertGetId([
+                'first_name' => 'Traducteur' . $i,
+                'middle_name' => null,
+                'last_name' => 'Lingua' . $i,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $correctorIds[] = DB::table('correctors')->insertGetId([
+                'first_name' => 'Correcteur' . $i,
+                'middle_name' => 'C.' . $i,
+                'last_name' => 'Fix' . $i,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Insertion de 50 documents avec données aléatoires
+        for ($i = 1; $i <= 50; $i++) {
+            $authorId = $authorIds[array_rand($authorIds)];
+            $illustratorId = $illustratorIds[array_rand($illustratorIds)];
+            $traductorId = $traductorIds[array_rand($traductorIds)];
+            $correctorId = $correctorIds[array_rand($correctorIds)];
+
+            $documentId = DB::table('documents')->insertGetId([
+                'title' => "Document $i",
+                'og_title' => "Original Title $i",
+                'isbn' => '978-' . rand(1000000000, 9999999999),
+                'image' => "https://picsum.photos/200/300?random=$i",
+                'description' => "Description du document $i",
+                'comment' => $i % 2 === 0 ? "Commentaire $i" : null,
+                'url' => "https://example.com/documents/$i",
+                'type' => ['book', 'magazine', 'pdf'][array_rand(['book', 'magazine', 'pdf'])],
+                'author_id' => $authorId,
+                'illustrator_id' => $illustratorId,
+                'traductor_id' => $traductorId,
+                'corrector_id' => $correctorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Ajout dans les tables pivot
+            DB::table('fk_document_author')->insert([
+                'document_id' => $documentId,
+                'author_id' => $authorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('fk_document_illustrator')->insert([
+                'document_id' => $documentId,
+                'illustrator_id' => $illustratorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('fk_document_traductor')->insert([
+                'document_id' => $documentId,
+                'traductor_id' => $traductorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('fk_document_corrector')->insert([
+                'document_id' => $documentId,
+                'corrector_id' => $correctorId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+}
