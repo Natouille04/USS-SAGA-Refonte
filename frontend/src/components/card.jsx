@@ -1,0 +1,21 @@
+import React from 'react';
+
+function Card({ title, image, id, index }) {
+    return (
+        <a
+            href={`/archive/document?id=${id}`}
+            className="flex flex-col items-center justify-end w-full min-h-[350px] p-3"
+            style={{
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: 'inset 0px -50px 40px -10px black'
+            }}
+            key={index}
+        >
+            <p className="text-xl">{title}</p>
+        </a>
+    );
+}
+
+export { Card };
