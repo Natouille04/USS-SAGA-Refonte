@@ -4,3 +4,17 @@
 .antonio {
   font-family: 'Antonio', sans-serif;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #FF9900;
+}

@@ -1,7 +1,9 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./pages/home.jsx";
 import Archive from "./pages/archive.jsx";
+import Details from "./pages/details.jsx";
 
 export default function App() {
   return (
@@ -9,7 +11,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/archive" element={<Archive />} />
-        <Route path="/details/:id" element={<Details />} />
+        <Route path="/archive/:id" element={<Details />} />
       </Routes>
     </BrowserRouter>
   );

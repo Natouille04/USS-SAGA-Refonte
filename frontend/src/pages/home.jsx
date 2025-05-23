@@ -72,7 +72,7 @@ function Home() {
 
             <div className="w-25/100 flex flex-col justify-end">
               <div className="h-60/100 grid grid-cols-2 gap-x-4 gap-y-3 text-black text-xl">
-                <Button text='ARCHIVE' url='#' color='#9999FF' />
+                <Button text='ARCHIVE' url='/archive' color='#9999FF' />
                 <Button text='CHARTE' url='#' color='#FF9900' />
                 <Button text='CONTACT' url='#' color='#FF9900' />
                 <Button text='COMPTE' url='#' color='#9999FF' />

@@ -3,7 +3,7 @@ import React from 'react';
 function Card({ title, image, id, index }) {
     return (
         <a
-            href={`/archive/document?id=${id}`}
+            href={`/archive/${id}`}
             className="flex flex-col items-center justify-end w-full min-h-[350px] p-3"
             style={{
                 backgroundImage: `url(${image})`,

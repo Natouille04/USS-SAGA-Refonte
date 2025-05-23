@@ -73,7 +73,7 @@ function Archive() {
                         <div className="w-15/100 flex flex-col justify-between py-5">
 
                             <div className="h-45/100 flex-col text-black text-xl">
-                                <Button text='ACCEUIL' url='#' color='#FF9900' />
+                                <Button text='ACCEUIL' url='/' color='#FF9900' />
                             </div>
 
                             <div className="h-45/100 flex-col text-black text-xl">
