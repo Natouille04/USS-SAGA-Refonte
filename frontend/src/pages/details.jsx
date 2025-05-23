@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { Button } from '../components/button.jsx';
 import { Card } from '../components/card.jsx';
+import { Info } from '../components/info.jsx';
 
 function Details() {
     const { id } = useParams();
@@ -80,59 +81,44 @@ function Details() {
 
             <div className="flex flex-col justify-between h-full w-88/100">
 
-                <div className="flex flex-col justify-end h-60/100 w-full bg-[#9999FF]">
+                <div className="flex flex-col items-center justify-end h-60/100 w-full bg-[#9999FF]">
                     <div className="w-full h-90/100 bg-black rounded-tl-3xl flex flex-row justify-between px-5 pt-5">
                         <img src={data.image}></img>
                         <div className='w-90/100 pl-5 flex flex-col'>
                             <h1 className="text-7xl mb-2">{data.title}</h1>
+                            <p className='text-2xl my-2'>ISBN : {data.isbn}</p>
                             <p className="w-full max-w-300 break-words whitespace-normal mb-2">{data.description}</p>
                             <p className='text-[#C0FF89]'>{data.comment}</p>
 
-                            <div className='w-full border-t-2 mt-4 pt-4'>
-                                <p className='text-2xl'>Auteur(s) :
-                                    {data.authors.map((author, index) => (
-                                        <span key={index}>
-                                            {index > 0 && ' - '}
-                                            {author.first_name}
-                                        </span>
-                                    ))}</p>
+                            <div className='w-full border-t-2 mt-4 pt-4 flex flex-row justify-between'>
+                                <div className='w-70/100'>
+                                    <Info data={data.authors} text="Auteur(s)" />
+                                    <Info data={data.illustrators} text="Illustrateur(s)" />
+                                    <Info data={data.traductors} text="Traducteur(s)" />
+                                    <Info data={data.correctors} text="Correcteur(s)" />
+                                </div>
 
-                                <p className='text-2xl'>Illustrateur(s) :
-                                    {data.illustrators.map((author, index) => (
-                                        <span key={index}>
-                                            {index > 0 && ' - '}
-                                            {author.first_name}
-                                        </span>
-                                    ))}
-                                </p>
-
-                                <p className='text-2xl'>Traducteur(s) :
-                                    {data.traductors.map((author, index) => (
-                                        <span key={index}>
-                                            {index > 0 && ' - '}
-                                            {author.first_name}
-                                        </span>
-                                    ))}
-                                </p>
-
-                                <p className='text-2xl'>Correcteur(s) :
-                                    {data.correctors.map((author, index) => (
-                                        <span key={index}>
-                                            {index > 0 && ' - '}
-                                            {author.first_name}
-                                        </span>
-                                    ))}
-                                </p>
-
-                                <p className='text-2xl'>ISBN : {data.isbn}</p>
+                                <div className='w-30/100 h-70/100 grid grid-cols-2 gap-4'>
+                                    <Button text='METTRE EN FAVORIE' url='#' color='#FF9900' />
+                                    <Button text='LIRE' url='#' color='#9999FF' />
+                                    <Button text='COMMENTAIRE' url='#' color='#CC6666' />
+                                    <Button text='PARTAGEZ' url='#' color='#CC99CC' />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col justify-start h-40/100 w-full bg-[#FF9966]">
-                    <div className="w-full h-96/100 bg-black rounded-bl-3xl px-5 pb-5 flex lg:flex-row flex-col items-center justify-between">
-
+                    <div className="w-full h-96/100 bg-black rounded-bl-3xl flex flex-col py-7 px-5">
+                        <p className='text-2xl'>Autres documents :</p>
+                        <div className='w-full h-full flex flex-row overflow-x-auto space-x-4 mt-5 pr-5'>
+                            {Array(20).fill(0).map((_, i) => (
+                                <div key={i} className="min-w-[200px]">
+                                    <Card id={i + 1} title='test' image={data.image} url='#' index={i} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
