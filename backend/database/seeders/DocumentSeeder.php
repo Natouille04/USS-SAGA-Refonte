@@ -13,7 +13,7 @@ class DocumentSeeder extends Seeder
 {
     public function run(): void
     {
-        // Création de plusieurs auteurs, illustrateurs, traducteurs et correcteurs
+
         $authorIds = [];
         $illustratorIds = [];
         $traductorIds = [];
@@ -53,7 +53,6 @@ class DocumentSeeder extends Seeder
             ]);
         }
 
-        // Insertion de 50 documents
         for ($i = 1; $i <= 50; $i++) {
             $documentId = DB::table('documents')->insertGetId([
                 'title' => "Document $i",
@@ -62,13 +61,15 @@ class DocumentSeeder extends Seeder
                 'image' => "https://picsum.photos/200/300?random=$i",
                 'description' => "Description du document $i",
                 'comment' => $i % 2 === 0 ? "Commentaire $i" : null,
+                'capitaine_id' => rand(1, 3),
+                'vaisseau_id' => rand(1, 3),
+                'planete_id' => rand(1, 3),
                 'url' => "https://example.com/documents/$i",
                 'type' => ['book', 'magazine', 'pdf'][array_rand(['book', 'magazine', 'pdf'])],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            // Associations aléatoires (1 à 3 de chaque)
             $selectedAuthors = collect($authorIds)->random(rand(1, 3));
             $selectedIllustrators = collect($illustratorIds)->random(rand(1, 2));
             $selectedTraductors = collect($traductorIds)->random(rand(1, 2));

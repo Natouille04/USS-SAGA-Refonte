@@ -49,11 +49,21 @@ class DocumentController extends Controller
 
     public function show(string $id)
     {
-        $book = Document::with(['authors', 'illustrators', 'traductors', 'correctors'])->find($id);
+        $book = Document::with([
+            'authors',
+            'illustrators',
+            'traductors',
+            'correctors',
+            'vaisseau',
+            'planete',
+            'capitaine'
+        ])->find($id);
 
         if ($book) {
             return response()->json($book);
-        } else {
+        } 
+        
+        else {
             return response()->json(['message' => 'Document not found'], 404);
         }
     }

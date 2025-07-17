@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap');
 @import "tailwindcss";
 
+:root {
+  --primary: rgb(255, 153, 0);
+  --purple: #d191f7;
+  --blue: #8896ff;
+  --red: #d55353;
+  --beige: #ff9966;
+  --green: #C0FF89;
+}
+
 .antonio {
   font-family: 'Antonio', sans-serif;
 }

@@ -1,22 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Button } from '../components/button.jsx';
+import { Block } from '../components/block.jsx';
 
 function Home() {
-  const [data, setData] = useState(null);
+  const [documentData, setDocumentData] = useState(null);
+  const [bulletinsData, setBulletinsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/document/getLast?limit=4')
+    fetch('http://192.168.1.142:8000/api/document/getLastDocuments?limit=15')
       .then(response => {
         if (!response.ok) throw new Error('Erreur réseau');
         return response.json();
       })
-      .then(data => {
-        setData(data);
+      .then(documentData => {
+        setDocumentData(documentData);
+        console.log(documentData);
+      })
+      .catch(err => {
+        setError(err.message);
         setLoading(false);
+      });
 
-        console.log(data);
+    fetch('http://192.168.1.142:8000/api/document/getLastBulletins?limit=15')
+      .then(response => {
+        if (!response.ok) throw new Error('Erreur réseau');
+        return response.json();
+      })
+      .then(bulletinsData => {
+        setBulletinsData(bulletinsData);
+        setLoading(false);
+        console.log(bulletinsData);
       })
       .catch(err => {
         setError(err.message);
@@ -26,7 +41,7 @@ function Home() {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-black text-[#FF9900] text-4xl antonio">
+      <div className="h-screen w-screen flex items-center justify-center bg-black text-[var(--primary)] text-4xl antonio">
         Chargement...
       </div>
     );
@@ -41,93 +56,97 @@ function Home() {
   }
 
   return (
-    <div className="h-screen bg-black h-full w-full p-3 flex flex-row text-[#FF9900] antonio">
+    <div className="h-screen bg-black h-full w-full p-1 flex flex-row text-[var(--primary)] antonio">
       <div className="flex flex-col justify-between h-full w-12/100">
 
-        <div className="flex flex-col h-28/100 w-full">
-          <div className="w-full h-45/100 bg-[#CC99CC] mb-2"></div>
+        <div className="flex flex-col h-20/100 w-full">
+          <div className="w-full h-45/100 bg-[var(--purple)] mb-2"></div>
           <div className="w-full h-55/100 flex flex-col">
-            <div className="w-full h-1/3 bg-[#9999FF]"></div>
-            <div className="w-full h-2/3 bg-[#9999FF] rounded-bl-full"></div>
+            <div className="w-full h-1/3 bg-[var(--blue)]"></div>
+            <div className="w-full h-2/3 bg-[var(--blue)] rounded-bl-full"></div>
           </div>
         </div>
 
-        <div className="flex flex-col h-71/100 w-full">
-          <div className="w-full h-3/25 bg-[#CC6666] rounded-tl-full mb-2"></div>
-          <div className="w-full h-7/25 bg-[#CC6666] mb-2"></div>
-          <div className="w-full h-2/25 bg-[#FF9900] mb-2"></div>
-          <div className="w-full h-12/25 bg-[#FF9966]"></div>
+        <div className="flex flex-col h-79/100 w-full">
+          <div className="w-full h-3/25 bg-[var(--red)] rounded-tl-full mb-2"></div>
+          <div className="w-full h-7/25 bg-[var(--red)] mb-2"></div>
+          <div className="w-full h-2/25 bg-[var(--primary)] mb-2"></div>
+          <div className="w-full h-9/25 bg-[var(--beige)]"></div>
+          <div className="w-full h-4/25 bg-[var(--beige)] rounded-bl-full"></div>
         </div>
 
       </div>
 
       <div className="flex flex-col justify-between h-full w-88/100">
 
-        <div className="flex flex-col h-28/100 w-full bg-[#9999FF]">
-          <div className="w-full h-90/100 bg-black rounded-bl-3xl flex flex-row justify-between px-3 pb-5">
-            <div>
-              <h1 className="lg:text-7xl md:text-6xl font-semibold mb-3 h-35/100">USS-SAGA</h1>
-              <p className="lg:text-3xl mdtext-3xl font-semibold">L'APPEL DES ETOILES</p>
+        <div className="flex flex-col h-20/100 w-full bg-[var(--blue)]">
+          <div className="w-full h-90/100 bg-black rounded-bl-3xl flex md:flex-row flex-col justify-between px-3 pb-2">
+            <div className='h-50/100 flex flex-col justify-start pb-1'>
+              <h1 className="font-semibold xs:text-6xl text-3xl">USS-SAGA</h1>
+              <p className="text-xs">L'APPEL DES ETOILE</p>
             </div>
 
-            <div className="w-25/100 flex flex-col justify-end">
-              <div className="h-60/100 grid grid-cols-2 gap-x-4 gap-y-3 text-black text-xl">
-                <Button text='ARCHIVE' url='/archive' color='#9999FF' />
-                <Button text='CHARTE' url='#' color='#FF9900' />
-                <Button text='CONTACT' url='#' color='#FF9900' />
-                <Button text='COMPTE' url='#' color='#9999FF' />
+            <div className='h-60/100 w-full flex flex-row justify-end grid grid-cols-2 gap-x-2 gap-y-1'>
+              <Button text='ARCHIVE' url='/archive' color='var(--primary)' height='full' />
+              <Button text='CHARTE' url='/charte' color='var(--red)' height='full' />
+              <Button text='CONTACT' url='/contact' color='var(--blue)' height='full' />
+              <Button text='PARTENAIRE' url='/partenaire' color='var(--purple)' height='full' />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col justify-end h-29/100 w-full bg-[var(--red)]">
+          <div className="w-full h-93/100 bg-black rounded-tl-3xl p-3 flex flex-col items-center">
+            <div className='w-full h-full flex flex-row justify-between pb-4 border-b-2 border-[var(--primary)]'>
+              <img src={documentData[0].image} alt="" className='rounded-xl w-2/5' />
+
+              <div className='flex flex-col h-full w-3/5 px-2 overflow-hidden'>
+                <h1 className='text-lg antonio font-bold text-[var(--primary)]'>{documentData[0].title}</h1>
+                <p className='text-xs'>ISBN : {documentData[0].isbn}</p>
+                <p className="w-full text-sm break-all overflow-y-auto">
+                  {documentData[0].description}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col justify-end h-71/100 w-full bg-[#CC6666]">
-          <div className="w-full h-96/100 bg-black rounded-tl-3xl p-5 flex lg:flex-row flex-col items-center justify-between">
+        <div className="flex flex-col justify-start h-49/100 w-full bg-[var(--beige)]">
+          <div className="w-full h-96/100 bg-black rounded-bl-3xl p-3 pt-0 flex flex-col items-center">
+            <h2 className='text-xl w-full text-left'>Dernieres sorties : </h2>
 
-            <div className="lg:h-90/100 lg:w-70/100 h-50/100 w-full lg:mx-5 mx-2 flex flex-row justify-between lg:border-r-2 lg:border-b-0 lg:pr-5 border-b-2 pb-5">
-              <img src={data[0].image} alt="Logo" className="w-2/5 h-full mr-5" />
-              <div className='w-3/5 flex flex-col'>
-                <h2 className="lg:text-6xl text-2xl font-semibold">{data[0].title}</h2>
-                <p className='mt-2'>
-                  {data[0].authors.map((author, index) => (
-                    <span key={index}>
-                      {index > 0 && ' - '}
-                      {author.first_name}
-                    </span>
-                  ))}
-                </p>
+            <div className='w-full h-45/100 overflow-x-scroll flex flex-row mt-3 pb-3 gap-x-3'>
+              {documentData.slice(1).map((doc, index) => (
+                <a
+                  href={`/archive/${doc.id}`}
+                  className='h-full w-23 min-w-23 flex justify-center items-end relative rounded-xl overflow-hidden'
+                  style={{ backgroundImage: `url(${doc.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                  key={index}
+                >
+                  <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent z-10"></div>
+                  <p className='text-sm z-20 p-1 text-[var(--primary)]'>{doc.title}</p>
+                </a>
 
-                <p className="font-semibold mt-2 text-xs lg:text-2xl">
-                  {data[0].description.length > 500
-                    ? data[0].description.slice(0, 500) + '...'
-                    : data[0].description}
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:w-30/100 lg:h-full h-50/100 w-full h-full ml-2 py-5 flex lg:flex-col flex-row justify-between">
-              {data.slice(1).map((item, index) => (
-                <div className='lg:h-30/100 lg:w-auto w-30/100 flex flex-row' key={index}>
-                  <img src={item.image} alt="Logo" className="lg:w-25/100 lg:block w-full h-full hidden" />
-                  <div style={{ backgroundImage: item.image }} className='lg:hidden block'></div>
-                  <div className='w-75/100 ml-2 flex flex-col lg:block hidden'>
-                    <p className='text-2xl'>{item.title}</p>
-                    <p className='text-sm w-80/100'>
-                      {
-                        item.description.length > 250
-                          ? item.description.slice(0, 250) + '...'
-                          : item.description
-                      }
-                    </p>
-                  </div>
-                </div>
               ))}
             </div>
 
+            <h2 className='text-xl mt-2 w-full text-left'>Derniers bulletins : </h2>
+
+            <div className='w-full h-45/100 overflow-x-scroll flex flex-row mt-3 pb-3 gap-x-3'>
+              {bulletinsData.map((doc, index) => (
+                <a
+                  href={`/archive/${doc.id}`}
+                  className='h-full w-23 min-w-23 flex justify-center items-end relative rounded-xl overflow-hidden'
+                  style={{ backgroundImage: `url(${doc.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                  key={index}
+                >
+                  <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent z-10"></div>
+                  <p className='text-xs z-20 p-1 text-[var(--primary)]'>{doc.name}</p>
+                </a>
+              ))}
+            </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );

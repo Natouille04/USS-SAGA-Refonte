@@ -6,7 +6,7 @@ function DisplayDocument(data, filter = null) {
     if (filter === null) {
         return (
             data.map((item, index) => (
-                <Card key={index} title={item.title} image={item.image} id={item.id} />
+                <Card key={index} title={item.title} image={item.image} id={item.id} height='250px' />
             ))
         );
     }
@@ -14,7 +14,7 @@ function DisplayDocument(data, filter = null) {
     else {
         return (
             data.filter((item) => item.title.toLowerCase().includes(filter.toLowerCase())).map((item, index) => (
-                <Card key={index} title={item.title} image={item.image} id={item.id} />
+                <Card key={index} title={item.title} image={item.image} id={item.id} height='250px' />
             ))
         );
     }
@@ -27,7 +27,7 @@ function Archive() {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/document/all')
+        fetch('http://192.168.1.142:8000/api/document/all')
             .then(response => {
                 if (!response.ok) throw new Error('Erreur réseau');
                 return response.json();
@@ -84,21 +84,13 @@ function Archive() {
             <div className="flex flex-col justify-between h-full w-88/100">
 
                 <div className="flex flex-col h-28/100 w-full bg-[#9999FF]">
-                    <div className="w-full h-90/100 bg-black rounded-bl-3xl flex md:flex-row flex-col justify-between px-3 pb-5">
+                    <div className="w-full h-90/100 bg-black rounded-bl-3xl flex flex-col justify-between px-3 pb-5">
                         <div>
-                            <h1 className="lg:text-7xl md:text-6xl text-5xl font-semibold mb-3 h-35/100">ARCHIVE</h1>
+                            <h1 className="text-5xl font-semibold mb-3 h-35/100">ARCHIVE</h1>
                         </div>
 
-                        <div className="md:w-15/100 w-full md:h-auto h-50/100 flex md:flex-col flex-row justify-between py-5">
-
-                            <div className="md:h-45/100 h-full md:w-auto w-48/100 flex-col text-black md:text-xl text-lg">
-                                <Button text='ACCEUIL' url='/' color='#FF9900' />
-                            </div>
-
-                            <div className="md:h-45/100 h-full md:w-auto w-48/100 flex-col text-black text-lg">
-                                <Button text='SUGGEREZ UN DOCUMENT' url='#' color='#CC6666' />
-                            </div>
-
+                        <div className="h-30/100 w-full flex-col text-black md:text-xl text-lg">
+                            <Button text='ACCEUIL' url='/' color='#FF9900' />
                         </div>
                     </div>
                 </div>
@@ -107,10 +99,8 @@ function Archive() {
                     <div className="w-full h-96/100 bg-black rounded-tl-3xl p-5 flex flex-col items-center justify-between">
                         <input type='text' className='w-full h-13 border-2 p-2 text-2xl outline-0 mb-3' placeholder='RECHERCHER UN DOCUMENT' onChange={(e) => setSearch(e.target.value)}></input>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-4 gap-y-6 w-full h-full overflow-y-scroll">
-                            {
-                                DisplayDocument(data, search)
-                            }
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-6 w-full overflow-y-scroll text-xl">
+                            {DisplayDocument(data, search)}
                         </div>
                     </div>
 

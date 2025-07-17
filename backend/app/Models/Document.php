@@ -15,6 +15,9 @@ class Document extends Model
         'comment',
         'url',
         'type',
+        'capitaine_id',
+        'vaisseau_id',
+        'planete_id',
     ];
 
     public function authors()
@@ -35,5 +38,20 @@ class Document extends Model
     public function correctors()
     {
         return $this->belongsToMany(Corrector::class, 'fk_document_corrector');
+    }
+
+    public function capitaine()
+    {
+        return $this->belongsTo(Capitaines::class, 'capitaine_id');
+    }
+
+    public function vaisseau()
+    {
+        return $this->belongsTo(Vaisseaux::class, 'vaisseau_id');
+    }
+
+    public function planete()
+    {
+        return $this->belongsTo(Planetes::class, 'planete_id');
     }
 }

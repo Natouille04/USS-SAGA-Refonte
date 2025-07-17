@@ -6,6 +6,12 @@ module.exports = {
         antonio: ['"Antonio"', 'sans-serif'],
       },
     },
+
+    screens: {
+      xs: { raw: '(max-height: 650px)' },
+    }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

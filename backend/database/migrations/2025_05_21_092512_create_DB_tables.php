@@ -40,16 +40,63 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('capitaines', function (Blueprint $table) {
+            $table->id();
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
+            $table->timestamps();
+        });
+
+        Schema::create('vaisseaux', function (Blueprint $table) {
+            $table->id();
+            $table->enum('prefix', [
+                    'USS', 'ISS', 'IKS', 'IKC', 'IKV', 'IRW', 'RIS', 
+                    'PWB', 'OSS', 'IGV', 'VS', 'ECS', 'SS', 'VK', 'NX', 
+                    'NS', 'NAR', 'BDR', 'NDT', 'NFT', 'NGL', 'NSP',
+                    'DEV', 'FMS', 'USGS'
+                ])->default('USS');
+            $table->string('name');
+            $table->string('registration');
+            $table->timestamps();
+        });
+
+        Schema::create('planetes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('og_title')->nullable();
             $table->string('isbn')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('comment')->nullable();
             $table->string('url');
+            $table->foreignId('capitaine_id')->nullable()->constrained('capitaines')->onDelete('set null');
+            $table->foreignId('vaisseau_id')->nullable()->constrained('vaisseaux')->onDelete('set null');
+            $table->foreignId('planete_id')->nullable()->constrained('planetes')->onDelete('set null');
             $table->string('type')->nullable();
+            $table->timestamps();
+        });
+
+
+        Schema::create('bulletins', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image');
+            $table->string('description');
+            $table->date('date');
+            $table->timestamps();
+        });
+
+        Schema::create('fk_document_bulletin', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('document_id')->constrained()->onDelete('cascade');
+            $table->foreignId('bulletin_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -88,7 +135,12 @@ return new class extends Migration
         Schema::dropIfExists('fk_document_traductor');
         Schema::dropIfExists('fk_document_illustrator');
         Schema::dropIfExists('fk_document_author');
+        Schema::dropIfExists('fk_document_bulletin');
+        Schema::dropIfExists('bulletins');
         Schema::dropIfExists('documents');
+        Schema::dropIfExists('planetes');
+        Schema::dropIfExists('vaisseaux');
+        Schema::dropIfExists('capitaines');
         Schema::dropIfExists('correctors');
         Schema::dropIfExists('traductors');
         Schema::dropIfExists('illustrators');

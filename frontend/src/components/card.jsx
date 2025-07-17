@@ -1,11 +1,12 @@
 import React from 'react';
 
-function Card({ title, image, id, index }) {
+function Card({ title, image, id, index, height = '100%' }) {
     return (
         <a
             href={`/archive/${id}`}
-            className="flex flex-col items-center justify-end w-full h-100 p-3"
+            className="flex flex-col items-center justify-end w-full p-3"
             style={{
+                height: height,
                 backgroundImage: `url(${image})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -13,7 +14,7 @@ function Card({ title, image, id, index }) {
             }}
             key={index}
         >
-            <p className="text-xl">{title}</p>
+            <p>{title}</p>
         </a>
     );
 }
